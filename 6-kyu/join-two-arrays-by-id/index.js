@@ -1,18 +1,16 @@
 function joinArraysById(arr1, arr2) {
   const arrays = [...arr1, ...arr2];
 
-  const result = arrays.reduce((acc, curr) => {
-    if (!acc.find((obj) => obj.id === curr.id)) {
-      acc.push(curr);
+  const merged = arrays.reduce((acc, curr) => {
+    if (!acc[curr.id]) {
+      acc[curr.id] = curr;
     } else {
-      acc[acc.indexOf(acc.find((obj) => obj.id === curr.id))] = {
-        ...acc[acc.indexOf(acc.find((obj) => obj.id === curr.id))],
-        ...curr,
-      };
+      acc[curr.id] = { ...acc[curr.id], ...curr };
     }
     return acc;
-  }, []);
-  return result.sort((a, b) => a.id - b.id);
+  }, {});
+
+  return Object.values(merged);
 }
 
 joinArraysById(
